@@ -1,0 +1,141 @@
+@charset "utf-8";
+/*
+
+    Body
+
+*/
+body {
+    font-family: 'Acme', sans-serif;
+    background-color: rgb(243, 223, 255);
+    vertical-align: middle;
+    text-align: center;
+}
+
+/*
+
+    Entete
+
+*/
+div#entete {
+    background-color: rgb(94, 21, 161);
+    text-align: center;
+    border-bottom: 15px solid goldenrod; 
+}
+
+/*
+
+    MAIN
+
+*/
+div#main {
+    width: 70%;
+    margin-left: 15%;
+    margin-right: 15%;
+}
+
+/*
+
+    Label
+
+*/
+.label {
+    font-size: 2em;
+    font-family: 'Gloria Hallelujah', cursive;
+    margin: 0;
+    text-align: center;
+}
+
+/*
+
+    Icones
+
+*/
+i.fas {
+    font-size : 100px;
+    display: inline-block;
+    padding: 3%;
+    color: goldenrod;
+    opacity: 0.95;
+}
+
+i.icon2 {
+    transform: scaleX(-1);
+}
+
+/*
+
+    Boutons
+
+*/
+.boutonFormulaire {
+    font-family: 'Acme', sans-serif;
+    margin-top: 3%;
+    border: 1px solid whitesmoke;
+    border-radius: 10px;
+    background-color: rgb(94, 21, 161);
+    color:whitesmoke;
+    text-decoration: none;
+    padding: 5px 25% 5px 25%;
+    font-size: 1.5em;
+}
+
+.boutonFormulaire:hover {
+    background-color: whitesmoke;
+    color:rgb(94, 21, 161);
+    border-color: rgb(94, 21, 161);
+}
+
+/*
+
+    Titre
+
+*/
+div#entete h1 {
+    font-family: 'Gloria Hallelujah', cursive;
+    font-style: italic;
+    text-align: center;
+    font-size: 5em;
+    color: aliceblue;
+    margin: 0px;
+    padding: 0;
+    display: inline-block;
+    text-shadow: 10px 5px 5px rgb(0, 0, 0);
+}
+
+h2.titrePage {
+    font-size: 4.5em;
+    font-family: 'Gloria Hallelujah', cursive;
+    margin: 0 0 2% 0;
+    text-align: center;
+}
+
+/*
+
+        LIENS Style Bouton
+
+*/
+.lien {
+    text-align: center;
+    margin : 1% 0px 3% 0px;
+    width: 100%;
+}
+
+.liens {
+    font-family: 'Acme', sans-serif;
+    text-align: center;
+    border: 1px solid whitesmoke;
+    border-radius: 10px;
+ 
+    background-color:rgb(94, 21, 161);
+    color:whitesmoke;
+    text-decoration: none;
+   
+    padding: 7px 9% 7px 9%;
+    font-size: 1.5em;
+}
+
+.liens:hover {
+    background-color: whitesmoke;
+    color:rgb(94, 21, 161);
+    border-color: rgb(94, 21, 161);
+}

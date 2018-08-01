@@ -1,0 +1,276 @@
+@charset "utf-8";
+
+/*
+
+    Body
+
+*/
+body {
+    font-family: 'Acme', sans-serif;
+    background-color: rgb(213, 194, 223);
+    
+    vertical-align: middle;
+    text-align: center;
+}
+
+/*
+
+    MAIN
+
+*/
+
+main#main {
+    
+    width: 70%;
+    margin-left: 15%;
+    margin-right: 15%;
+}
+
+
+/*
+
+    Icones
+
+*/
+i.fas {
+    font-size : 100px;
+    display: inline-block;
+    padding: 3%;
+    color: goldenrod;
+    opacity: 0.95;
+}
+
+i.icon2 {
+    transform: scaleX(-1);
+}
+
+/*
+
+    Entete - Header
+
+*/
+
+header#entete {
+    /*background-color: rgb(94, 21, 161);*/
+    background : linear-gradient(rgb(166, 172, 255),rgb(94, 21, 161));
+    border-bottom: 15px solid goldenrod;
+}
+
+/*
+
+    Titre
+
+*/
+
+.titre {
+    font-family: 'Gloria Hallelujah', cursive;
+    margin: 0;
+}
+
+header#entete h1{
+    
+    font-style: italic;
+    text-align: center;
+    font-size: 6.5em;
+    color: aliceblue;
+    padding: 0;
+    display: inline-block;
+    text-shadow: 10px 5px 5px rgb(0, 0, 0);
+}
+
+h1#titrePage {
+    font-size: 5em;
+    
+}
+
+.titreDomaine{
+    font-size: 3em;
+    color: black;
+}
+
+.titreDomaine a{ 
+    color: black;
+}
+
+/*
+
+    Bloc Information Joueur + présentation
+
+*/
+figure#profil {
+    display: inline-block;
+    /*background-color: rgb(242, 238, 245);*/
+    background : linear-gradient(rgb(236, 216, 255),rgb(230, 185, 73));
+    border: 3px solid rgb(94, 21, 161);
+    border-radius: 60%;
+    padding: 3%;;
+    width: 22%;
+    height: 15%;
+}
+
+img#photo {
+    width: 120px;
+    height:150px;
+}
+
+h3#pseudo {
+    margin : 0px;
+    padding: 0%;
+    font-size : 1.5em;
+    font-weight: bold;
+    color:rgb(94, 21, 161);
+}
+
+p#desc {
+    color:rgb(42, 10, 71);
+    margin: 0;
+    padding: 0 3px 3px;
+}
+
+/*
+
+    Créer Partie
+
+*/
+section.creerPartie {
+    padding: 3% 5% 5%;
+}
+
+section.creerPartie p {
+    margin: 0 0 4%;
+    padding: 0;
+}
+
+
+/*
+
+    listePartie
+
+*/
+section#rejoindrePartie :last-child {
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+div#enteteListe {
+    width: 100%;
+    font-size: 1.4em;
+    background-color: goldenrod;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    font-family: 'Acme', sans-serif;
+}
+
+
+div.listePartie{
+    display: inline-block;
+    width: 100%;
+    padding : 5px 0 5px 0;
+}
+
+.partieImpair {
+    background-color: rgb(179, 148, 187);
+}
+
+.partiePair {
+    background-color: rgb(230, 229, 203);
+}
+
+div.listePartie:hover{
+    background-color: rgb(27, 14, 29);
+    color: whitesmoke;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.cellule {
+    display: inline-block;
+    width: 24%;
+}
+/*
+
+    Footer
+
+*/
+footer {
+    background : linear-gradient(rgb(94, 21, 161),rgb(138, 107, 167));
+    border-top: 15px solid goldenrod;
+    margin-top : 5%;
+}
+
+footer ul {
+    display: inline;
+    list-style: none;
+    text-align: center;
+}
+
+footer .titreFooter {
+    margin: 0;
+    color: whitesmoke;
+    font-size: 1.5em;
+}
+
+footer ul li a {
+    color: goldenrod;
+    padding: 0%;
+}
+
+footer ul li a:hover {
+    color: black;
+}
+
+
+/*
+
+    BOUTONs
+
+*/
+a.boutonRejoindre {
+    color : black;
+    text-decoration: none;
+    background : whitesmoke;
+    border-radius: 9px;
+    border : 1px solid goldenrod;
+    padding: 3% 5%;
+}
+
+a.boutonRejoindre:hover {
+    content: 'Rejoindre';
+    background-color: goldenrod;
+    border-color: whitesmoke;
+    color: whitesmoke;
+}
+
+div.listePartie:hover a.boutonRejoindre{
+    /*color: rgb(94, 21, 161);*/
+    color: rgb(94, 21, 161);
+    
+    vertical-align: middle;
+}
+
+
+/*
+
+        LIENS Style Bouton
+
+*/
+a {
+    text-decoration: none;
+}
+
+.lienBouton {
+    border-radius: 40px;
+    background-color: black;
+    color:whitesmoke;
+    border: 1px solid black;
+    margin-top: 10px;
+    padding: 7px 9% 7px 9%;
+    font-size: 1.5em;
+}
+
+.lienBouton:hover {
+    background-color: whitesmoke;
+    color:rgb(94, 21, 161);
+    
+
+}
