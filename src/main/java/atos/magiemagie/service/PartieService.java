@@ -103,11 +103,16 @@ public class PartieService {
 
     public Long rejoindrePartie(String pseudo, String avatar, Long idPartie) {
         // si le pseudo n'existe pas, renvoie un objet Joueur avec le pseudo donné
-        Joueur joueur = joueurDaoCrud.findOneByPseudo(pseudo);
         
-        // On choisit un avatar lorque l'on rejoint la partie
-        joueur.setAvatar(avatar);
-
+        Joueur joueur;
+        try {
+            joueur = joueurDaoCrud.findOneByPseudo(pseudo);
+            joueur.setAvatar(avatar);
+        } catch (NullPointerException e) {
+            joueur = new Joueur();
+            joueur.setPseudo(pseudo);
+            joueur.setAvatar(avatar);
+        }
         // Initialise les attributs du nouveau joueur
         joueur.setEtat(EtatJoueur.EN_ATTENTE);
         Long ordre = joueurDaoCrud.findLastPositionWithMax(idPartie);
@@ -121,11 +126,8 @@ public class PartieService {
         // n'est pas update]
         //partie.getJoueurs().add(joueur);
 
-        if (joueur.getId() == null) {
-            joueurDaoCrud.save(joueur);
-        } else {
-            joueurDaoCrud.save(joueur);
-        }
+        joueurDaoCrud.save(joueur);
+        
         return joueur.getId();
     }
 
