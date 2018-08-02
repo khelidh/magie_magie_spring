@@ -1,7 +1,6 @@
 package atos.magiemagie.service;
 
 import atos.magiemagie.dao.CarteDaoCrud;
-import atos.magiemagie.dao.JoueurDAO;
 import atos.magiemagie.dao.JoueurDaoCrud;
 import atos.magiemagie.dao.PartieDAO;
 import atos.magiemagie.dao.PartieDaoCrud;
@@ -50,12 +49,14 @@ public class PartieService {
     @Autowired
     private CarteDaoCrud carteDaoCrud;
     
+    @Autowired
+    CarteService serviceCarte;
     
-    PartieDAO partieDAO = new PartieDAO();
-    JoueurDAO joueurDAO = new JoueurDAO();
-    CarteService serviceCarte = new CarteService();
-    JoueurService serviceJoueur = new JoueurService();
-    CarteService carteService = new CarteService();
+    @Autowired
+    JoueurService serviceJoueur;
+    
+    @Autowired
+    CarteService carteService;
 
     ///////////////////////
     //  Gérance de la création & de l'état de la partie
@@ -85,11 +86,11 @@ public class PartieService {
 
     public void demarrer(Long idPartie) {
         Partie partie = getPartie(idPartie);
-        if ((partieDAO.findNombreJoueurEnAttente(idPartie) > 1) && (partie.getEtat() == EtatPartie.EN_PREPARATION)) {
+        if ((joueurDaoCrud.findNombreJoueurEnAttente(idPartie) > 1) && (partie.getEtat() == EtatPartie.EN_PREPARATION)) {
             partie.setEtat(EtatPartie.EN_COURS);
             updatePartie(partie);
 
-            List<Joueur> joueurs = partieDAO.findJoueursOrderByPosition(idPartie);
+            List<Joueur> joueurs = joueurDaoCrud.findJoueursOrderByPosition(idPartie);
             joueurs.get(POSITION_DE_DEPART).setEtat(EtatJoueur.A_LA_MAIN);
             serviceJoueur.updateJoueur(joueurs.get(POSITION_DE_DEPART));
 
@@ -109,7 +110,7 @@ public class PartieService {
 
         // Initialise les attributs du nouveau joueur
         joueur.setEtat(EtatJoueur.EN_ATTENTE);
-        Long ordre = partieDAO.findLastPositionWithMax(idPartie);
+        Long ordre = joueurDaoCrud.findLastPositionWithMax(idPartie);
         joueur.setPosition(ordre + 1);
 
         Partie partie = partieDaoCrud.findOne(idPartie);
@@ -150,7 +151,7 @@ public class PartieService {
         dealer.setEtat(EtatJoueur.PAS_LA_MAIN);
         serviceJoueur.updateJoueur(dealer);
 
-        Joueur nextDealer = partieDAO.findNextDealer(dealer);
+        Joueur nextDealer = joueurDaoCrud.findNextDealer(dealer.getId(), dealer.getPosition());
         do {
 
             if (nextDealer.getEtat() == EtatJoueur.EN_SOMMEIL) {
@@ -161,7 +162,7 @@ public class PartieService {
                 serviceJoueur.updateJoueur(nextDealer);
                 return nextDealer;
             }
-            nextDealer = partieDAO.findNextDealer(nextDealer);
+            nextDealer = joueurDaoCrud.findNextDealer(dealer.getId(), dealer.getPosition());
         } while (true);
     }
 
@@ -170,7 +171,7 @@ public class PartieService {
         joueur.setEtat(EtatJoueur.ELIMINE);
 
         System.out.println("Le joueur " + joueur.getPseudo() + " est éliminé ! Dommage ! ");
-        System.out.println("Il reste " + partieDAO.findNombreJoueurEnLice(idJoueur) + " dans la partie !");
+        System.out.println("Il reste " + joueurDaoCrud.findNombreJoueurEnLice(joueur.getPartie().getId()) + " dans la partie !");
 
         if (joueur.getCartes().size() > 0) {
             for (Carte carte : joueur.getCartes()) {
@@ -223,7 +224,7 @@ public class PartieService {
     public void commencer(Long idPartie) {
         Partie partie = getPartie(idPartie);
         if (partie.getEtat() == EtatPartie.EN_COURS) {
-            Long idPremierJoueur = partieDAO.findDealerID(idPartie);
+            Long idPremierJoueur = joueurDaoCrud.findDealerId(idPartie);
             jouer(idPremierJoueur);
         } else {
             System.out.println("La partie " + partie.getNom() + " a déjà commencée !");
@@ -246,7 +247,7 @@ public class PartieService {
 
     public void jouer(Long idJoueur) {
         try {
-            Long idPartie = joueurDAO.findPartieIDFromJoueurID(idJoueur);
+            Long idPartie = partieDaoCrud.findPartieIDFromJoueurID(idJoueur);
             affichage(idPartie);
             if (isPartieTerminee(idPartie)) {
                 terminerPartie(idPartie);
@@ -438,7 +439,7 @@ public class PartieService {
 
     public void lancerSortInvisibilite(Long idJoueur) {
         Joueur joueur = getJoueur(idJoueur);
-        List<Joueur> listeJoueurs = joueurDAO.findAllFromPartieExecptOne(joueur);
+        List<Joueur> listeJoueurs = joueurDaoCrud.findAllByPartieIdAndIdNot(joueur.getId(), idJoueur);
 
         for(Joueur cible : listeJoueurs) {
             volerCarteAleatoireFromJoueur(idJoueur, cible.getId());
@@ -447,7 +448,7 @@ public class PartieService {
 
     public void lancerSortDivination(Long idJoueur) {
         Joueur joueur = getJoueur(idJoueur);
-        List<Joueur> listeJoueurs = joueurDAO.findAllFromPartieExecptOne(joueur);
+        List<Joueur> listeJoueurs = joueurDaoCrud.findAllByPartieIdAndIdNot(joueur.getId(), idJoueur);
         for (Joueur cible : listeJoueurs) {
             System.out.println(serviceJoueur.mainToString(cible));
         }
@@ -601,7 +602,7 @@ public class PartieService {
     //  CHECKs
     /////////////////////
     public boolean isPartieTerminee(Long idPartie) {
-        return partieDAO.findNombreJoueurEnLice(idPartie) == 1;
+        return joueurDaoCrud.findNombreJoueurEnLice(idPartie) == 1;
     }
 
     // Peut-etre faire une requete directe au lieu de prendre l'objet et faire une opération dessus
@@ -618,7 +619,7 @@ public class PartieService {
         System.out.println("Vous devez choisir votre cible entre :");
         Joueur player = getJoueur(idJoueur);
         int numero = 0;
-        List<Joueur> joueurs = joueurDAO.findAllFromPartieExecptOne(player);
+        List<Joueur> joueurs = joueurDaoCrud.findAllByPartieIdAndIdNot(player.getId(), idJoueur);
 
         for (Joueur joueur : joueurs) {
             numero++;
@@ -730,11 +731,11 @@ public class PartieService {
     }
 
     public List<Joueur> getJoueurs(Long idPartie) {
-        return partieDAO.findJoueurEnLice(idPartie);
+        return joueurDaoCrud.findJoueursEnLice(idPartie);
     }
     
     public Joueur getJoueurALaMain(Long idPartie){
-        return partieDAO.findJoueurALaMain(idPartie);
+        return joueurDaoCrud.findOneByPartieIdAndEtat(idPartie, EtatJoueur.A_LA_MAIN);
     }
 
     public Joueur getJoueur(Long idJoueur) {
@@ -746,10 +747,10 @@ public class PartieService {
     }
     
     public Joueur getJoueurByPosition(Long idPartie, Long position){
-        return partieDAO.findJoueurByPosition(idPartie, position);
+        return joueurDaoCrud.findOneByPartieIdAndPosition(idPartie, position);
     }
     public Joueur getJoueurFirstPosition(Long idPartie){
-        return partieDAO.findJoueurFirstPosition(idPartie);
+        return joueurDaoCrud.findOneByPartieIdAndEtat(idPartie, EtatJoueur.A_LA_MAIN);
     }
 
     ///////////////////////
@@ -879,8 +880,8 @@ public class PartieService {
         }
     }
 
-    public int getNombreCartesJoueur(Long idJoueur) {
-        return partieDAO.findNombreCartesJoueur(idJoueur);
+    public long getNombreCartesJoueur(Long idJoueur) {
+        return carteDaoCrud.countByJoueurId(idJoueur);
     }
     
     public void supprimerDeuxCartes(Long idJoueur, TypeCarte selection1, TypeCarte selection2) {

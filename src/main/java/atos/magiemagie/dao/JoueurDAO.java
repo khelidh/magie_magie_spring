@@ -43,7 +43,7 @@ public class JoueurDAO {
         return (Long) query.getSingleResult();
     }
     
-    public List<Joueur> findAllFromPartieExecptOne(Joueur joueur){
+    public List<Joueur> findAllFromPartieExceptOne(Joueur joueur){
         
         EntityManager em = makeEM();
         String requete = "SELECT j"

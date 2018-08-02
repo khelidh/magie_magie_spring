@@ -15,8 +15,11 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * @author mama
  */
+
+@Transactional
 @Service
 public class JoueurService {  
+    
     @Autowired
     private JoueurDaoCrud joueurDaoCrud;
     

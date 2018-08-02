@@ -5,6 +5,7 @@
  */
 package atos.magiemagie.dao;
 
+import atos.magiemagie.entity.Joueur;
 import atos.magiemagie.entity.Partie;
 import java.util.List;
 import org.springframework.data.jpa.repository.Query;
@@ -17,11 +18,17 @@ import org.springframework.data.repository.CrudRepository;
 public interface PartieDaoCrud extends CrudRepository<Partie, Long>{
     
     
-    //public List<Partie> findByEtat(Partie.EtatPartie etat);
+    public List<Partie> findByEtat(Partie.EtatPartie etat);
     
     
     @Query("SELECT p FROM Partie p"
                 + " WHERE p.etat = atos.magiemagie.entity.Partie.EtatPartie.EN_PREPARATION")
     public List<Partie> listerPartieEnPreparation();
     
+    
+    public Partie findOneByJoueursId(Long id);
+    
+    @Query("SELECT p.id FROM Partie p WHERE p.joueurs.id =?1")
+    public Long findPartieIDFromJoueurID(Long idJoueur);
+  
 }

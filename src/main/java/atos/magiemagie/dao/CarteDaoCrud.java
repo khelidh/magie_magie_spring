@@ -14,7 +14,7 @@ import org.springframework.data.repository.CrudRepository;
  */
 public interface CarteDaoCrud extends CrudRepository<Carte, Long>{
     
-    
+    public Long countByJoueurId(Long idJoueur);
     public Carte findOneByTypeAndJoueurId(Long id, Carte.TypeCarte type);
     public Long countByTypeAndId(Long id, Carte.TypeCarte type);
     
