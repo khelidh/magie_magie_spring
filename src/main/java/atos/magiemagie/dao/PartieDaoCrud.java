@@ -28,7 +28,7 @@ public interface PartieDaoCrud extends CrudRepository<Partie, Long>{
     
     public Partie findOneByJoueursId(Long id);
     
-    @Query("SELECT p.id FROM Partie p WHERE p.joueurs.id =?1")
+    @Query("SELECT p.id FROM Partie p JOIN p.joueurs j WHERE j.id =?1")
     public Long findPartieIDFromJoueurID(Long idJoueur);
   
 }

@@ -75,7 +75,7 @@ public interface JoueurDaoCrud extends CrudRepository<Joueur, Long>{
     @Query("     SELECT j"
                 + "     FROM Joueur j"
             + "     JOIN j.partie p"
-                + "     WHERE pe.id = ?1"
+                + "     WHERE p.id = ?1"
                 + "     AND j.position > ?2"
                 + "     AND (j.etat = atos.magiemagie.entity.Joueur.EtatJoueur.PAS_LA_MAIN"
                 + "     OR j.etat = atos.magiemagie.entity.Joueur.EtatJoueur.EN_SOMMEIL)"

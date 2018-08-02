@@ -14,6 +14,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
@@ -22,7 +23,8 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "CreerPartieServlet", urlPatterns = {"/creer-partie-servlet"})
 public class CreerPartieServlet extends AutowireServlet {
     
-    PartieService partieService = new PartieService();
+    @Autowired
+    PartieService partieService;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -32,15 +34,13 @@ public class CreerPartieServlet extends AutowireServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         
-        
-        
         String nomPartie = req.getParameter("nomPartie");
         String pseudoJoueur = req.getParameter("pseudoJoueur");
         String avatarJoueur = req.getParameter("avatarJoueur");
         
         Partie partie = partieService.creer(nomPartie, pseudoJoueur, avatarJoueur);
         req.getSession().setAttribute("idPartieRejoint", partie.getId());
-        req.getSession().setAttribute("idJoueurPrincipal", partie.getJoueurs().get(0));
+        req.getSession().setAttribute("idJoueurPrincipal", partieService.getJoueurFirstPosition(partie.getId()));
         
         resp.sendRedirect("lister-partie-servlet");
     }

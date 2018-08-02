@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * @author Administrateur
@@ -18,8 +19,11 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet(name = "PlateauPartieServlet", urlPatterns = {"/plateau-partie-servlet"})
 public class PlateauPartieServlet extends AutowireServlet {
-    PartieService partieService = new PartieService();
-    JoueurService joueurService = new JoueurService();
+    
+    @Autowired
+    PartieService partieService;
+    @Autowired
+    JoueurService joueurService;
     
     Long idPartie;
     Joueur joueurALaMain, joueurPrincipal;

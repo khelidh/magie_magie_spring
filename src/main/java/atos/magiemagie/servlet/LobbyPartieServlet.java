@@ -14,6 +14,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
@@ -22,7 +23,9 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "LobbyPartieServlet", urlPatterns = {"/lobby-partie-servlet"})
 public class LobbyPartieServlet extends AutowireServlet {
 
-    PartieService partieService = new PartieService();
+    @Autowired
+    PartieService partieService;
+    
     Long idPartie;
 
     @Override

@@ -104,7 +104,7 @@ public class PartieService {
     public Long rejoindrePartie(String pseudo, String avatar, Long idPartie) {
         // si le pseudo n'existe pas, renvoie un objet Joueur avec le pseudo donné
         Joueur joueur = joueurDaoCrud.findOneByPseudo(pseudo);
-
+        
         // On choisit un avatar lorque l'on rejoint la partie
         joueur.setAvatar(avatar);
 
